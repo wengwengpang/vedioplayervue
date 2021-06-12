@@ -1,0 +1,148 @@
+@import "~@/assets/styles/_variables"
+
+@mixin mainBorder($border-way)
+  $border-way: 1px solid rgb(181,184,187)
+  box-shadow: 1px 1px 3px rgb(181,184,187)
+
+@mixin keyframes($animationName)
+    @keyframes #{$animationName}
+        @content
+
+@mixin alphabetIcon()
+  @include keyframes(alphabetIcon)
+    0%
+      transform: scale(1)
+    100%
+      transform: scale(1.5)
+
+@mixin sketon()
+  @include keyframes(sketon)
+    to
+      background-position-x: -20%
+
+@mixin waterdrop()
+  @include keyframes(drop)
+    0%
+      transform: scale(0.7) translateY(-380%)
+      opacity: 0
+    50%
+      transform: scale(0.4) translateY(-90%)
+      opacity: 1
+    100%
+      transform: scale(0.3) translateY(0)
+
+@mixin waterCollection()
+  @include keyframes(collection)
+    0%
+      transform: scale(1) rotate(0deg)
+    50%
+      transform: scale(1.2) rotate(180deg)
+      width: 0.55rem
+      border-top-left-radius: 40%
+      border-bottom-left-radius: 45%
+    100%
+      transition: scale(1) rotate(360deg)
+
+@mixin mainMenuIcon()
+  @include keyframes(mainMenuIcon)
+    0%
+      left: -4.8rem
+    50%
+      left: -3rem
+
+@mixin borderspin()
+  @include keyframes(bordersp)
+    0%
+      transform: rotate(0deg)
+    50%
+      transform: rotate(180deg)
+    100%
+      transform: rotate(360deg)
+
+@mixin spotlight($backImg,$backContent)
+  &
+    position: relative
+  &::after
+    background-image: url($backImg)
+    content: attr($backContent)
+    background-size: 100%
+    background-position: center center
+    background-clip: text
+    color: transparent
+    position: absolute
+    top: 0
+    left: 0
+    clip-path: ellipse(20px 20px at 0% 50%)
+    animation: spotlight 5s infinite
+    @include keyframes(spotlight)
+      0%
+        clip-path: ellipse(20px 20px at 0% 50%)
+
+      50%
+        clip-path: ellipse(20px 20px at 100% 50%)
+
+      100%
+        clip-path: ellipse(20px 20px at 0% 50%)
+
+@mixin scrollbarSet($width:6px,$border-radius:10px,$bgTrack:none,$bgThumb:rgba(105,120,113,.5),$brThumb:10px)
+  ::-webkit-scrollbar
+    width: $width
+    border-radius: $border-radius
+  ::-webkit-scrollbar-track
+    background: $bgTrack
+  ::-webkit-scrollbar-thumb
+    background: $bgThumb
+    border-radius: $brThumb
+
+@mixin mainBtn($width:4rem,$height:1.3rem,$fSize:1rem)
+  .mainBtn
+    width: $width
+    height: $height
+    font-size: $fSize
+    font-family: "cursive"
+    background-color: $main-button-background-color
+    color: darken(white,4%)
+    border: none
+    line-height: $fSize
+    @if $width == 4rem
+      border-radius: 6%
+      font-size: 0.8rem
+      height: 1rem
+      line-height: 1rem
+    cursor: pointer
+    &:hover
+      background-color: darken($main-button-background-color,10%)
+    &:active
+      background-color: darken($main-button-background-color,5%)
+
+@mixin cancelBtn($width:4rem,$height:1.3rem,$fSize:1rem)
+  .cancelBtn
+    width: $width
+    height: $height
+    font-size: $fSize
+    font-family: "cursive"
+    background-color: $main-cancel-background-color
+    color: darken(white,4%)
+    border: none
+    line-height: $fSize
+    @if $width == 4rem
+      border-radius: 6%
+      font-size: 0.8rem
+      height: 1rem
+      line-height: 0.8rem
+    cursor: pointer
+    &:hover
+      background-color: darken($main-cancel-background-color,15%)
+    &:active
+      background-color: darken($main-cancel-background-color,5%)
+
+@mixin threeDots()
+  overflow: hidden
+  white-space: nowrap
+  text-overflow: ellipsis
+
+@mixin tagInputFormat()
+  input
+    padding: 0 0.5rem
+    line-height: $tagFontSize
+    font-size: $tagFontSize
