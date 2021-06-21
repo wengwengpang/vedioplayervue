@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import fastClick from 'fastclick'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
+import store from "./store"
 // import pagination from "vue-awesome-swiper"
 import 'normalize.css/normalize.css'
 import './assets/styles/iconfont.css'
@@ -18,5 +19,6 @@ Vue.use(VueAwesomeSwiper)
 
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')

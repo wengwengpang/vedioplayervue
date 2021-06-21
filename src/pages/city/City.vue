@@ -6,7 +6,7 @@
       <city-content :cities="cities" :hotCities="hotCities" class="contents" :letter="letter"></city-content>
       <alphabet @letterNav="letterChange" class="alphabet" :cities="cities"></alphabet>
     </div>
-    <search-area class="citySearch"></search-area>
+    <search-area class="citySearch" :cities="cities"></search-area>
   </div>
 </div>
 </template>
@@ -112,6 +112,7 @@ export default {
       justify-content: center
       overflow: hidden
       padding: 2rem
+      position: relative
       .cityContent
         width: 50%
         height: 100%

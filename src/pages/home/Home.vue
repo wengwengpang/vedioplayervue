@@ -16,17 +16,23 @@
   <left-container :class="{leftContainer:onOffLeftContainer}"></left-container>
   <right-container class="rightContainer">
     <div class="menuOpened">
-      <button class="openbtn" @click="showLeftContainer">&#9776;</button>
+      <button class="openbtn" @click="showLeftContainer">&#9776;{{ci}}</button>
       <!-- <div class="location">
         广东
       </div> -->
     </div>
   </right-container>
+  <div class="ci">
+    {{ci}}
+  </div>
 </div>
 </template>
 <script>
 import LeftContainer from "./components/leftContainer/LeftContainer"
 import RightContainer from "./components/rightContainer/rightContainer"
+import {
+  mapState
+} from 'vuex'
 // import axios from "axios"
 // import {
 //   Swiper,
@@ -43,8 +49,9 @@ export default {
     // SwiperSlide
   },
   data: () => ({
-    onOffLeftContainer: false
-
+    onOffLeftContainer: false,
+    lastCity: "",
+    ci: ""
     // return {
     //   menuOpened: false,
     //   swiperOption: {
@@ -59,9 +66,51 @@ export default {
     //   }
     // }
   }),
+  computed: {
+    ...mapState(['city'])
+  },
   methods: {
     showLeftContainer: function () {
       this.onOffLeftContainer = !this.onOffLeftContainer
+    },
+    getCityInfo: function () {
+
+      let xhr = new XMLHttpRequest()
+      // 自动解析JSON格式响应体
+      xhr.responseType = 'json'
+      // 超时设置，如果2秒内没回应取消请求
+      xhr.timeout = 2000
+      // 取消请求
+      // xhr.abort()
+      // 超时后操作
+      xhr.ontimeout = function () {
+        console.log("timeOut")
+      }
+      // 网络异常设置
+      xhr.onerror = function () {
+        console.log("网络异常")
+      }
+      // 针对IE游览器的，IE有缓存导致数据不能及时更新，在URL加上时间戳就等于发送不同的URL，工作中工具自动添加
+      xhr.open('get', "/api/City.json?a=100?t=" + Date.now() + this.city)
+      xhr.send()
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 300) {
+          let response = xhr.response
+          // 手动解析JSON格式
+          // response = JSON.parse(response)
+          if (response.ret && response.data) {
+            let ls = []
+            for (let i in response) {
+              if (Object.hasOwnProperty.call(response, i)) {
+                ls.push(response[i])
+              }
+            }
+            this.ci = ls[1].city
+            console.log(this.ci)
+            console.log(ls)
+          }
+        }
+      }
     }
     // getHomeInfo: function () {
     //   axios.get('/api/index.json')
@@ -70,7 +119,10 @@ export default {
     // getHomeInfoSucc: function (res) {
     //   console.log(res)
     // }
-  }
+  },
+  mounted() {
+    this.getCityInfo()
+  },
   // mounted() {
   // this.getHomeInfo()
   // }
@@ -84,6 +136,12 @@ export default {
   //     this.menuOpened ? this.swiper.slideNext() : this.swiper.slidePrev()
   //   }
   // }
+  activated() {
+    if (this.lastCity !== this.city) {
+      this.lastCity = this.city
+      this.getCityInfo()
+    }
+  }
 }
 </script>
 <style lang="sass" scoped>
@@ -186,4 +244,8 @@ export default {
     //             opacity: .1
     //           .bar:nth-of-type(3)
     //             transform: translateY(-13.5px) rotate(40.5deg)
+    .ci
+      font-size: 100rem
+      color: red
+      background: red
 </style>

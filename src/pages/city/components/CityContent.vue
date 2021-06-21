@@ -8,7 +8,7 @@
       <div class="cityName">
         <div class="cityWrapper">
           <div class="city">
-            北京
+            {{this.currentCity}}
           </div>
         </div>
       </div>
@@ -18,7 +18,7 @@
         热门城市
       </div>
       <div class="cityName">
-        <div class="cityWrapper" v-for="item in hotCities" :key="item.id">
+        <div class="cityWrapper" v-for="item in hotCities" :key="item.id" @click="selectHotCity(item.name)">
           <div class="city">
             {{item.name}}
           </div>
@@ -31,7 +31,7 @@
         {{key}}
       </div>
       <div class="citydetail">
-        <div class="citys" v-for="innerItem of item" :key="innerItem.id">
+        <div class="citys" v-for="innerItem of item" :key="innerItem.id" @click="selectHotCity(innerItem.name)">
           {{innerItem.name}}
         </div>
       </div>
@@ -41,6 +41,9 @@
 </template>
 <script>
 import Bscroll from '@better-scroll/core'
+import {
+  mapState
+} from 'vuex'
 export default {
   name: "CityList",
   props: {
@@ -51,6 +54,21 @@ export default {
   data: () => ({
 
   }),
+  methods: {
+    selectHotCity(cityName) {
+      // this.$store.dispatch("changeCity", cityName)
+      // const query = confirm("是否确认当前城市？")
+      // if (query) {
+      //   this.$router.push('/')
+      // }
+      confirm("是否确认当前城市？") ? this.$store.dispatch("changeCity", cityName) && this.$router.push('/') : ""
+    }
+  },
+  computed: {
+    ...mapState({
+      currentCity: 'city'
+    })
+  },
   watch: {
     letter() {
       if (this.letter) {

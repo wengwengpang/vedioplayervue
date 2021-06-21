@@ -1,7 +1,7 @@
 <template>
 <div id="navBar">
   <ul id="iconList">
-    <li v-for="(item, navName) of iconOrigin" :key="item" class="navlist" @click="menuClick(item)" :id="item">
+    <li v-for="(item, navName) of iconOrigin" :key="item" class="navlist" @click="menuClick(item,navName)" :id="item">
       <svg class="icon editIcon" aria-hidden="true">
         <use :xlink:href="item"></use>
       </svg>
@@ -15,6 +15,7 @@
 </template>
 <script>
 import waterDrop from "./NavBar/waterDrop"
+
 export default {
   name: "navBar",
   components: {
@@ -30,7 +31,7 @@ export default {
       "Women Shoes": "#icon-xie1",
       "Bags": "#icon-baobao",
       "Hat": "#icon-maozi",
-      "Hand Chain": "#icon-icon-test",
+      "Hand Chains": "#icon-icon-test",
       "Baby Beds": "#icon-yingerchuang",
       "Baby Cart": "#icon-yingerche"
     },
@@ -51,8 +52,12 @@ export default {
     // }
   },
   methods: {
-    menuClick: function (item) {
+    menuClick: function (item, navName) {
       //这里是个难点
+      navName = navName.replace(/\s/ig, '')[0].toLowerCase() + navName.replace(/\s/ig, '')
+        .slice(1) + 'Content'
+      console.log(navName)
+      this.$store.dispatch('menuClick', navName)
       return this.menuSelected = item
 
       // console.log(this.iconOrigin)

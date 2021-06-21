@@ -20,7 +20,7 @@
         <!-- <svg class="locationIcon" aria-hidden="true">
         <use :xlink:href="locationIcon"></use>
       </svg> -->
-        ({{city}})
+        ({{this.city}})
       </div>
     </router-link>
 
@@ -54,6 +54,9 @@
 </div>
 </template>
 <script>
+import {
+  mapState
+} from 'vuex'
 import StarRating from 'vue-star-rating'
 import customerImg01 from "img/castle/castle_c_scale,w_762.jpg"
 import customerImg02 from "img/dog/dog_c_scale,w_774.jpg"
@@ -67,7 +70,7 @@ export default {
   },
   data: () => ({
     customerName: "毛泽东",
-    city: "广州",
+    // city: "广州",
     nameChanged: "",
     nameOn: true,
     customerNameStatue: true,
@@ -90,7 +93,8 @@ export default {
   computed: {
     profileText: function () {
       return `You are online in ${this.onlineDay} days!`
-    }
+    },
+    ...mapState(['city'])
   },
   methods: {
     imgClick: function () {
